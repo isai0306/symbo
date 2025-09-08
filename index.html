@@ -1,391 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TechXplore'25</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechXplore'25</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-  <style>
-    /* ---------- Global ---------- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:"Poppins",sans-serif;
+    background: linear-gradient(135deg,#121212,#1e1e2f);
+    color:#fff;
+    overflow-x:hidden;
+  }
+  a { text-decoration:none; color:inherit; }
+  .container { width:90%; max-width:1200px; margin:auto; }
+
+  /* Navbar */
+  header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:15px 0; position:relative;
+  }
+  .logo {
+    font-family:"Orbitron",sans-serif; font-size:1.4rem;
+    background:linear-gradient(90deg,#ff00cc,#00ffff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  nav ul {
+    list-style:none; display:flex; gap:15px;
+    transition: all 0.3s ease-in-out;
+  }
+  nav ul li a { font-weight:600; font-size:0.9rem; transition:0.3s; }
+  nav ul li a:hover { color:#ff00cc; }
+
+  .hamburger {
+    display:none; flex-direction:column; cursor:pointer; gap:5px;
+  }
+  .hamburger div { width:25px; height:3px; background:#fff; transition:0.3s; }
+
+  /* Hero */
+  .hero { text-align:center; padding:60px 15px; position:relative; z-index:1; }
+  .hero::after {
+    content:""; position:absolute; top:0; left:0; width:100%; height:100%;
+    background: radial-gradient(circle at top left, rgba(255,0,204,0.2), transparent 70%), 
+                radial-gradient(circle at bottom right, rgba(0,255,204,0.2), transparent 70%);
+    z-index:-1;
+  }
+  .hero h1 {
+    font-family:"Orbitron",sans-serif; font-size:2rem; margin-bottom:15px;
+    background: linear-gradient(90deg,#ff00cc,#00ffcc,#3333ff);
+    background-size:300% 300%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    animation: gradientFlow 6s infinite linear, float 3s ease-in-out infinite;
+  }
+  .hero p { margin-bottom:20px; font-size:1rem; opacity:0.9; }
+  .btn { padding:10px 20px; border-radius:30px; font-size:0.9rem; cursor:pointer; font-weight:bold; border:none; transition:0.3s; }
+  .btn-primary {
+    background: linear-gradient(90deg,#ff0080,#7928ca); color:#fff;
+    box-shadow: 0 5px 15px rgba(255,0,128,0.4);
+  }
+  .btn-primary:hover { transform:scale(1.08); box-shadow:0 8px 20px rgba(255,0,128,0.6); }
+
+  /* Sections */
+  section { padding:40px 15px; text-align:center; }
+  section h2 {
+    font-family:"Orbitron",sans-serif; font-size:1.6rem; margin-bottom:30px;
+    background: linear-gradient(90deg,#ff00cc,#00ffcc,#3333ff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    animation: gradientFlow 6s infinite linear;
+  }
+
+  /* Grid & Cards */
+  .grid { display:grid; gap:15px; }
+  .event-grid { grid-template-columns:1fr; }
+  .contact-grid { grid-template-columns:1fr; }
+
+  .card {
+    background:#1e1e2f; padding:20px; border-radius:15px;
+    border:2px solid transparent;
+    background-clip:padding-box;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0px 8px 20px rgba(0,0,0,0.5);
+    transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+    animation: float 4s ease-in-out infinite;
+  }
+  .card::before {
+    content:""; position:absolute; top:0; left:0; width:100%; height:100%;
+    border-radius:15px; padding:2px;
+    background: linear-gradient(135deg,#ff00cc,#00ffcc,#3333ff);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    pointer-events:none;
+  }
+  .card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0px 15px 30px rgba(255,255,255,0.15);
+    border:2px solid #ff00cc;
+  }
+  .card h3 { margin-bottom:10px; font-family:"Orbitron",sans-serif; }
+  .card p { font-size:0.9rem; }
+
+  /* Footer */
+  footer { text-align:center; padding:20px; background:#0a0a40; margin-top:20px; font-size:0.85rem; }
+  .footer-social { margin-top:10px; display:flex; justify-content:center; gap:12px; }
+  .footer-social a {
+    display:flex; align-items:center; justify-content:center;
+    width:40px; height:40px; font-size:1.2rem; border-radius:50%;
+    background: linear-gradient(135deg,#ff00cc,#00ccff);
+    color:#fff; transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .footer-social a:hover {
+    transform: scale(1.15);
+    box-shadow: 0px 5px 15px rgba(255,0,200,0.5);
+    background: linear-gradient(135deg,#ff0080,#7928ca);
+  }
+
+  /* Animations */
+  @keyframes gradientFlow {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+  }
+  @keyframes float {
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+  }
+
+  /* Responsive */
+  @media(max-width:767px){
+    nav ul {
+      position:absolute; top:65px; right:0;
+      background:#1e1e2f; flex-direction:column; width:200px;
+      padding:15px; max-height:0; overflow:hidden; border-radius:10px 0 0 10px;
     }
-
-    body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #121212, #1e1e2f);
-      color: #fff;
-      overflow-x: hidden;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    /* ---------- Navbar ---------- */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 0;
-      flex-wrap: wrap;
-    }
-
-    header .logo {
-      font-family: "Orbitron", sans-serif;
-      font-size: 1.4rem;
-      background: linear-gradient(90deg, #ff00cc, #00ffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
-    }
-
-    header nav ul {
-      list-style: none;
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    header nav ul li a {
-      font-weight: 600;
-      transition: 0.3s;
-      font-size: 0.9rem;
-    }
-
-    header nav ul li a:hover {
-      color: #ff00cc;
-    }
-
-    /* ---------- Hero Section ---------- */
-    .hero {
-      text-align: center;
-      padding: 60px 15px;
-    }
-
-    .hero h1 {
-      font-family: "Orbitron", sans-serif;
-      font-size: 2rem;
-      margin-bottom: 15px;
-      background: linear-gradient(90deg, #ff00cc, #00ffcc, #3333ff);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradientFlow 6s infinite linear, float 3s ease-in-out infinite;
-    }
-
-    .hero p {
-      margin-bottom: 20px;
-      font-size: 1rem;
-      opacity: 0.9;
-    }
-
-    .btn {
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      font-weight: bold;
-      border: none;
-      transition: 0.3s;
-    }
-
-    .btn-primary {
-      background: linear-gradient(90deg, #ff0080, #7928ca);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      transform: scale(1.05);
-      box-shadow: 0px 4px 15px rgba(255,0,128,0.6);
-    }
-
-    /* ---------- About ---------- */
-    .about {
-      padding: 40px 15px;
-      text-align: center;
-    }
-
-    .about h2 {
-      font-family: "Orbitron", sans-serif;
-      font-size: 1.6rem;
-      margin-bottom: 15px;
-    }
-
-    .about p {
-      max-width: 90%;
-      margin: auto;
-      font-size: 0.95rem;
-    }
-
-    /* ---------- Events ---------- */
-    .events {
-      padding: 40px 15px;
-      text-align: center;
-    }
-
-    .events h2 {
-      font-family: "Orbitron", sans-serif;
-      margin-bottom: 30px;
-      font-size: 1.6rem;
-    }
-
-    .event-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
-
-    .event-card {
-      background: #1e1e2f;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
-      transition: transform 0.3s, background 0.3s;
-    }
-
-    .event-card:hover {
-      transform: translateY(-5px) scale(1.03);
-      background: linear-gradient(135deg, #ff00cc33, #00ffcc33);
-    }
-
-    .event-card h3 {
-      margin: 10px 0;
-      font-size: 1.1rem;
-      font-family: "Orbitron", sans-serif;
-    }
-
-    .event-card p {
-      font-size: 0.9rem;
-    }
-
-    /* ---------- Contact ---------- */
-    .contact {
-      padding: 40px 15px;
-      text-align: center;
-    }
-
-    .contact h2 {
-      font-family: "Orbitron", sans-serif;
-      font-size: 1.6rem;
-      margin-bottom: 25px;
-      background: linear-gradient(90deg, #ff00cc, #00ffcc, #3333ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradientFlow 6s infinite linear;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
-
-    .contact-card {
-      background: #1e1e2f;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
-    }
-
-    .contact-card h3 {
-      margin-bottom: 8px;
-      font-size: 1rem;
-    }
-
-    .contact-card p {
-      font-size: 0.9rem;
-    }
-
-    /* ---------- Footer ---------- */
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #0a0a40;
-      margin-top: 20px;
-      font-size: 0.85rem;
-    }
-
-    .footer-social {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .footer-social a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      font-size: 1.2rem;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ff00cc, #00ccff);
-      color: #fff;
-      transition: transform 0.3s, box-shadow 0.3s, background 0.5s;
-    }
-
-    .footer-social a:hover {
-      transform: scale(1.15);
-      box-shadow: 0px 5px 15px rgba(255,0,200,0.5);
-      background: linear-gradient(135deg, #ff0080, #7928ca);
-    }
-
-    /* ---------- Animations ---------- */
-    @keyframes gradientFlow {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    /* ---------- Responsive ---------- */
-    @media (min-width: 768px) {
-      .event-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .contact-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      header .logo {
-        font-size: 1.6rem;
-      }
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .event-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .contact-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      .hero h1 {
-        font-size: 3rem;
-      }
-    }
-  </style>
+    nav ul.show { max-height:500px; }
+    .hamburger { display:flex; }
+  }
+  @media(min-width:768px){
+    .event-grid { grid-template-columns:repeat(2,1fr); }
+    .contact-grid { grid-template-columns:repeat(2,1fr); }
+  }
+  @media(min-width:1024px){
+    .event-grid { grid-template-columns:repeat(3,1fr); }
+    .contact-grid { grid-template-columns:repeat(4,1fr); }
+    .hero h1 { font-size:3rem; }
+  }
+</style>
 </head>
 <body>
-  
-  <!-- Navbar -->
-  <div class="container">
-    <header>
-      <div class="logo">TECHXPLORE'25</div>
-      <nav>
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#events">Events</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#">Register</a></li>
-        </ul>
-      </nav>
-    </header>
+<div class="container">
+  <header>
+    <div class="logo">TECHXPLORE'25</div>
+    <nav>
+      <ul id="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">Register</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger" id="hamburger">
+      <div></div><div></div><div></div>
+    </div>
+  </header>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>WELCOME TO TECHXPLORE'25</h1>
+  <p>National Level Technical Symposium • 26th September 2025<br>University College of Engineering, Anna University - Ariyalur</p>
+  <button class="btn btn-primary">Register Now (₹150)</button>
+</section>
+
+<!-- About -->
+<section class="about">
+  <h2>About TechXplore</h2>
+  <p>TechXplore’25 is a National Level Technical Symposium proudly presented by the Department of Computer Science and Engineering, University College of Engineering, Ariyalur (Anna University).<br>
+  Theme: <b>"Think • Build • Play – The TechXplore Way"</b></p>
+</section>
+
+<!-- Events -->
+<section class="events" id="events">
+  <h2>Technical Events</h2>
+  <div class="grid event-grid">
+    <div class="card"><h3>🐞 Debugging</h3><p>Test your coding and problem-solving skills.</p></div>
+    <div class="card"><h3>📄 Paper Presentation</h3><p>Showcase your innovative ideas and research.</p></div>
+    <div class="card"><h3>💻 Web Design (Front-End)</h3><p>Show your creativity in building web interfaces.</p></div>
   </div>
+</section>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h1>WELCOME TO TECHXPLORE'25</h1>
-    <p>National Level Technical Symposium • 26th September 2025<br>
-    University College of Engineering, Anna University - Ariyalur</p>
-    <button class="btn btn-primary">Register Now (₹150)</button>
-  </section>
+<section class="events">
+  <h2>Non-Technical Events</h2>
+  <div class="grid event-grid">
+    <div class="card"><h3>🖼️ Poster Designing</h3><p>Unleash your creativity with impactful poster designs.</p></div>
+    <div class="card"><h3>🎮 Free Fire Tournament</h3><p>Compete and showcase your eSports talent.</p></div>
+  </div>
+</section>
 
-  <!-- About -->
-  <section class="about">
-    <h2>About TechXplore</h2>
-    <p>
-      TechXplore’25 is a National Level Technical Symposium proudly presented by the Department of Computer Science and Engineering, University College of Engineering, Ariyalur (Anna University).
-      <br>Theme: <b>"Think • Build • Play – The TechXplore Way"</b>
-    </p>
-  </section>
+<!-- Contact -->
+<section class="contact" id="contact">
+  <h2>Contact Us</h2>
+  <div class="grid contact-grid">
+    <div class="card"><h3>📍 Venue</h3><p>University College of Engineering,<br>Ariyalur – 621 731, Tamil Nadu</p></div>
+    <div class="card"><h3>📞 Phone</h3><p>+91 12345 67890</p></div>
+    <div class="card"><h3>📧 Email</h3><p>techxplore25@gmail.com</p></div>
+    <div class="card"><h3>🌐 Social Media</h3><p>Follow us for updates</p></div>
+  </div>
+</section>
 
-  <!-- Events -->
-  <section class="events" id="events">
-    <h2>Technical Events</h2>
-    <div class="event-grid">
-      <div class="event-card">
-        <h3>🐞 Debugging</h3>
-        <p>Test your coding and problem-solving skills.</p>
-      </div>
-      <div class="event-card">
-        <h3>📄 Paper Presentation</h3>
-        <p>Showcase your innovative ideas and research.</p>
-      </div>
-      <div class="event-card">
-        <h3>💻 Web Design (Front-End)</h3>
-        <p>Show your creativity in building web interfaces.</p>
-      </div>
-    </div>
-  </section>
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 TechXplore'25. All Rights Reserved.</p>
+  <div class="footer-social">
+    <a href="#">📘</a>
+    <a href="#">📷</a>
+    <a href="#">🐦</a>
+    <a href="#">💼</a>
+    <a href="#">▶️</a>
+  </div>
+</footer>
 
-  <section class="events">
-    <h2>Non-Technical Events</h2>
-    <div class="event-grid">
-      <div class="event-card">
-        <h3>🖼️ Poster Designing</h3>
-        <p>Unleash your creativity with impactful poster designs.</p>
-      </div>
-      <div class="event-card">
-        <h3>🎮 Free Fire Tournament</h3>
-        <p>Compete and showcase your eSports talent.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section class="contact" id="contact">
-    <h2>Contact Us</h2>
-    <div class="contact-grid">
-      <div class="contact-card">
-        <h3>📍 Venue</h3>
-        <p>University College of Engineering,<br>Ariyalur – 621 731, Tamil Nadu</p>
-      </div>
-      <div class="contact-card">
-        <h3>📞 Phone</h3>
-        <p>+91 12345 67890</p>
-      </div>
-      <div class="contact-card">
-        <h3>📧 Email</h3>
-        <p>techxplore25@gmail.com</p>
-      </div>
-      <div class="contact-card">
-        <h3>🌐 Social Media</h3>
-        <p>Follow us for updates</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 TechXplore'25. All Rights Reserved.</p>
-    <div class="footer-social">
-      <a href="#">📘</a>
-      <a href="#">📷</a>
-      <a href="#">🐦</a>
-      <a href="#">💼</a>
-      <a href="#">▶️</a>
-    </div>
-  </footer>
-
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+  hamburger.addEventListener('click',()=>navLinks.classList.toggle('show'));
+</script>
 </body>
 </html>

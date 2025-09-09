@@ -12,100 +12,110 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
     font-family:"Poppins",sans-serif;
-    background: linear-gradient(135deg,#121212,#1e1e2f);
+    background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000 100%);
     color:#fff;
     overflow-x:hidden;
   }
   a { text-decoration:none; color:inherit; }
   .container { width:90%; max-width:1200px; margin:auto; }
 
+  /* Starfield Background */
+  .stars,.twinkling {
+    width:100%; height:100%; position:fixed; top:0; left:0; z-index:-2;
+  }
+  .stars {
+    background:transparent url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
+    animation: moveStars 200s linear infinite;
+  }
+  .twinkling {
+    background:transparent url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
+    animation: twinkle 8s infinite;
+    opacity:0.6; z-index:-1;
+  }
+  @keyframes moveStars {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+  }
+  @keyframes twinkle {
+    0%,100%{opacity:0.6;}
+    50%{opacity:1;}
+  }
+
   /* Navbar */
   header {
     display:flex; justify-content:space-between; align-items:center;
-    padding:15px 0; position:relative;
+    padding:15px 0; position:relative; z-index:10;
   }
   .logo {
     font-family:"Orbitron",sans-serif; font-size:1.4rem;
     background:linear-gradient(90deg,#ff00cc,#00ffff);
     -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    text-shadow:0 0 15px rgba(0,255,255,0.8);
   }
+  nav { display:flex; }
   nav ul {
     list-style:none; display:flex; gap:15px;
-    transition: all 0.3s ease-in-out;
   }
   nav ul li a { font-weight:600; font-size:0.9rem; transition:0.3s; }
-  nav ul li a:hover { color:#ff00cc; }
-
-  .hamburger {
-    display:none; flex-direction:column; cursor:pointer; gap:5px;
-  }
-  .hamburger div { width:25px; height:3px; background:#fff; transition:0.3s; }
+  nav ul li a:hover { color:#ff00cc; text-shadow:0 0 10px #ff00cc; }
 
   /* Hero */
-  .hero { text-align:center; padding:60px 15px; position:relative; z-index:1; }
-  .hero::after {
-    content:""; position:absolute; top:0; left:0; width:100%; height:100%;
-    background: radial-gradient(circle at top left, rgba(255,0,204,0.2), transparent 70%), 
-                radial-gradient(circle at bottom right, rgba(0,255,204,0.2), transparent 70%);
-    z-index:-1;
-  }
+  .hero { text-align:center; padding:80px 15px; position:relative; z-index:1; }
   .hero h1 {
-    font-family:"Orbitron",sans-serif; font-size:2rem; margin-bottom:15px;
+    font-family:"Orbitron",sans-serif; font-size:2.5rem; margin-bottom:15px;
     background: linear-gradient(90deg,#ff00cc,#00ffcc,#3333ff);
     background-size:300% 300%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     animation: gradientFlow 6s infinite linear, float 3s ease-in-out infinite;
+    text-shadow:0 0 25px rgba(0,255,255,0.6);
   }
   .hero p { margin-bottom:20px; font-size:1rem; opacity:0.9; }
-  .btn { padding:10px 20px; border-radius:30px; font-size:0.9rem; cursor:pointer; font-weight:bold; border:none; transition:0.3s; }
+  .btn { padding:10px 25px; border-radius:30px; font-size:0.95rem; cursor:pointer; font-weight:bold; border:none; transition:0.3s; }
   .btn-primary {
     background: linear-gradient(90deg,#ff0080,#7928ca); color:#fff;
-    box-shadow: 0 5px 15px rgba(255,0,128,0.4);
+    box-shadow: 0 0 20px rgba(255,0,128,0.6);
   }
-  .btn-primary:hover { transform:scale(1.08); box-shadow:0 8px 20px rgba(255,0,128,0.6); }
+  .btn-primary:hover { transform:scale(1.08); box-shadow:0 0 30px rgba(255,0,128,0.9); }
 
   /* Sections */
-  section { padding:40px 15px; text-align:center; }
+  section { padding:50px 15px; text-align:center; position:relative; z-index:1; }
   section h2 {
-    font-family:"Orbitron",sans-serif; font-size:1.6rem; margin-bottom:30px;
+    font-family:"Orbitron",sans-serif; font-size:1.8rem; margin-bottom:30px;
     background: linear-gradient(90deg,#ff00cc,#00ffcc,#3333ff);
     -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     animation: gradientFlow 6s infinite linear;
+    text-shadow:0 0 20px rgba(0,255,255,0.6);
   }
 
   /* Grid & Cards */
-  .grid { display:grid; gap:15px; }
+  .grid { display:grid; gap:20px; }
   .event-grid { grid-template-columns:1fr; }
   .contact-grid { grid-template-columns:1fr; }
 
   .card {
-    background:#1e1e2f; padding:20px; border-radius:15px;
-    border:2px solid transparent;
-    background-clip:padding-box;
-    position:relative;
-    overflow:hidden;
-    box-shadow:0px 8px 20px rgba(0,0,0,0.5);
-    transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
-    animation: float 4s ease-in-out infinite;
-  }
-  .card::before {
-    content:""; position:absolute; top:0; left:0; width:100%; height:100%;
-    border-radius:15px; padding:2px;
-    background: linear-gradient(135deg,#ff00cc,#00ffcc,#3333ff);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    pointer-events:none;
-  }
-  .card:hover {
-    transform: translateY(-10px) scale(1.05);
-    box-shadow: 0px 15px 30px rgba(255,255,255,0.15);
-    border:2px solid #ff00cc;
+    background:rgba(20,20,40,0.9); padding:20px; border-radius:15px;
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0px 0px 25px rgba(0,0,50,0.8);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor:pointer;
   }
   .card h3 { margin-bottom:10px; font-family:"Orbitron",sans-serif; }
-  .card p { font-size:0.9rem; }
+  .card p { font-size:0.9rem; display:none; }
+
+  /* Expanded card on mobile */
+  .card.active {
+    background:rgba(30,30,70,0.95);
+    transform: scale(1.05);
+    box-shadow: 0px 0px 35px rgba(0,255,255,0.7);
+  }
+  .card.active p { display:block; margin-top:10px; animation: fadeIn 0.4s ease-in; }
+
+  @keyframes fadeIn {
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
 
   /* Footer */
-  footer { text-align:center; padding:20px; background:#0a0a40; margin-top:20px; font-size:0.85rem; }
+  footer { text-align:center; padding:20px; background:#02020f; margin-top:20px; font-size:0.85rem; position:relative; z-index:1; }
   .footer-social { margin-top:10px; display:flex; justify-content:center; gap:12px; }
   .footer-social a {
     display:flex; align-items:center; justify-content:center;
@@ -115,7 +125,7 @@
   }
   .footer-social a:hover {
     transform: scale(1.15);
-    box-shadow: 0px 5px 15px rgba(255,0,200,0.5);
+    box-shadow: 0px 0px 15px rgba(0,255,255,0.7);
     background: linear-gradient(135deg,#ff0080,#7928ca);
   }
 
@@ -132,55 +142,45 @@
 
   /* Responsive */
   @media(max-width:767px){
-    nav ul {
-      position:absolute; top:65px; right:0;
-      background:#1e1e2f; flex-direction:column; width:200px;
-      padding:15px; max-height:0; overflow:hidden; border-radius:10px 0 0 10px;
-    }
-    nav ul.show { max-height:500px; }
-    .hamburger { display:flex; }
+    nav { display:none; }  /* remove menu on mobile */
+    .event-grid { grid-template-columns:1fr; }
+    .contact-grid { grid-template-columns:1fr; }
   }
   @media(min-width:768px){
     .event-grid { grid-template-columns:repeat(2,1fr); }
     .contact-grid { grid-template-columns:repeat(2,1fr); }
+    .card p { display:block; }  /* show descriptions on desktop */
   }
   @media(min-width:1024px){
     .event-grid { grid-template-columns:repeat(3,1fr); }
     .contact-grid { grid-template-columns:repeat(4,1fr); }
-    .hero h1 { font-size:3rem; }
+    .hero h1 { font-size:3.2rem; }
   }
 </style>
 </head>
 <body>
+<div class="stars"></div>
+<div class="twinkling"></div>
+
 <div class="container">
   <header>
     <div class="logo">TECHXPLORE'25</div>
     <nav>
-      <ul id="nav-links">
+      <ul>
         <li><a href="#">Home</a></li>
         <li><a href="#events">Events</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#">Register</a></li>
       </ul>
     </nav>
-    <div class="hamburger" id="hamburger">
-      <div></div><div></div><div></div>
-    </div>
   </header>
 </div>
 
 <!-- Hero -->
 <section class="hero">
-  <h1>WELCOME TO TECHXPLORE'25</h1>
+  <h1>🚀 WELCOME TO TECHXPLORE'25 🌌</h1>
   <p>National Level Technical Symposium • 26th September 2025<br>University College of Engineering, Anna University - Ariyalur</p>
   <button class="btn btn-primary">Register Now (₹150)</button>
-</section>
-
-<!-- About -->
-<section class="about">
-  <h2>About TechXplore</h2>
-  <p>TechXplore’25 is a National Level Technical Symposium proudly presented by the Department of Computer Science and Engineering, University College of Engineering, Ariyalur (Anna University).<br>
-  Theme: <b>"Think • Build • Play – The TechXplore Way"</b></p>
 </section>
 
 <!-- Events -->
@@ -225,9 +225,14 @@
 </footer>
 
 <script>
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('nav-links');
-  hamburger.addEventListener('click',()=>navLinks.classList.toggle('show'));
+  // Mobile: toggle card expansion on tap
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click',()=>{
+      if(window.innerWidth < 768){
+        card.classList.toggle('active');
+      }
+    });
+  });
 </script>
 </body>
 </html>

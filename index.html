@@ -15,6 +15,9 @@
     background: radial-gradient(ellipse at bottom, #0d1b2a 0%, #000 100%);
     color:#fff;
     overflow-x:hidden;
+    perspective: 1px;
+    transform-style: preserve-3d;
+    height: 100%;
   }
   a { text-decoration:none; color:inherit; }
   .container { width:90%; max-width:1200px; margin:auto; }
@@ -22,6 +25,7 @@
   /* Starfield Background */
   .stars,.twinkling {
     width:100%; height:100%; position:fixed; top:0; left:0; z-index:-2;
+    transform: translateZ(-1px) scale(2); /* parallax effect */
   }
   .stars {
     background:transparent url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
@@ -65,7 +69,7 @@
     font-family:"Orbitron",sans-serif; font-size:2.5rem; margin-bottom:15px;
     background: linear-gradient(90deg,#ff00cc,#00ffcc,#3333ff);
     background-size:300% 300%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    animation: gradientFlow 6s infinite linear, float 3s ease-in-out infinite;
+    animation: gradientFlow 6s infinite linear;
     text-shadow:0 0 25px rgba(0,255,255,0.6);
   }
   .hero p { margin-bottom:20px; font-size:1rem; opacity:0.9; }
@@ -170,6 +174,17 @@
     100% {background-position:0% 50%;}
   }
 
+  /* Scroll Reveal Animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease-out;
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   /* Responsive */
   @media(max-width:767px){
     nav { display:none; }
@@ -188,7 +203,7 @@
 <div class="stars"></div>
 <div class="twinkling"></div>
 
-<div class="container">
+<div class="container reveal">
   <header>
     <div class="logo">TECHXPLORE'25</div>
     <nav>
@@ -203,7 +218,7 @@
 </div>
 
 <!-- Hero -->
-<section class="hero">
+<section class="hero reveal">
   <h1>🚀 WELCOME TO TECHXPLORE'25 🌌</h1>
   <p>A National Level Technical Symposium<br>
   Organized by Department of Computer Science & Engineering<br>
@@ -213,24 +228,24 @@
 </section>
 
 <!-- Events -->
-<section class="events" id="events">
+<section class="events reveal" id="events">
   <h2>Technical Events</h2>
   <div class="grid event-grid">
-    <div class="card">
+    <div class="card reveal">
       <h3>📄 Paper Presentation</h3>
       <div class="card-details">
         <p>Showcase your innovative ideas and research papers.</p>
         <div class="bubbles"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div></div>
       </div>
     </div>
-    <div class="card">
+    <div class="card reveal">
       <h3>🐞 Debugging</h3>
       <div class="card-details">
         <p>Test your coding, logic, and debugging skills.</p>
         <div class="bubbles"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div></div>
       </div>
     </div>
-    <div class="card">
+    <div class="card reveal">
       <h3>💻 Web Design (Front-End)</h3>
       <div class="card-details">
         <p>Create attractive and user-friendly web pages.</p>
@@ -240,17 +255,17 @@
   </div>
 </section>
 
-<section class="events">
+<section class="events reveal">
   <h2>Non-Technical Events</h2>
   <div class="grid event-grid">
-    <div class="card">
+    <div class="card reveal">
       <h3>🧩 Puzzle Solving</h3>
       <div class="card-details">
         <p>Challenge your mind with fun and tricky puzzles.</p>
         <div class="bubbles"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div></div>
       </div>
     </div>
-    <div class="card">
+    <div class="card reveal">
       <h3>🎮 Free Fire</h3>
       <div class="card-details">
         <p>Compete in the ultimate battle royale tournament.</p>
@@ -261,18 +276,18 @@
 </section>
 
 <!-- Contact -->
-<section class="contact" id="contact">
+<section class="contact reveal" id="contact">
   <h2>Contact Us</h2>
   <div class="grid event-grid">
-    <div class="card"><h3>📍 Venue</h3><div class="card-details"><p>University College of Engineering,<br>Ariyalur – 621 731, Tamil Nadu</p></div></div>
-    <div class="card"><h3>📞 Phone</h3><div class="card-details"><p>+91 93444 31737<br>+91 99438 60525</p></div></div>
-    <div class="card"><h3>📧 Email</h3><div class="card-details"><p>techxploreucea25@gmail.com</p></div></div>
-    <div class="card"><h3>👥 Student Incharge</h3><div class="card-details"><p>Ms. Shivani. B<br>Mr. Anbuthamizhan. N</p></div></div>
+    <div class="card reveal"><h3>📍 Venue</h3><div class="card-details"><p>University College of Engineering,<br>Ariyalur – 621 731, Tamil Nadu</p></div></div>
+    <div class="card reveal"><h3>📞 Phone</h3><div class="card-details"><p>+91 93444 31737<br>+91 99438 60525</p></div></div>
+    <div class="card reveal"><h3>📧 Email</h3><div class="card-details"><p>techxploreucea25@gmail.com</p></div></div>
+    <div class="card reveal"><h3>👥 Student Incharge</h3><div class="card-details"><p>Ms. Shivani. B<br>Mr. Anbuthamizhan. N</p></div></div>
   </div>
 </section>
 
 <!-- Footer -->
-<footer>
+<footer class="reveal">
   <p>&copy; 2025 TechXplore'25. All Rights Reserved.</p>
   <p>Last Date for Paper Submission: <b>25th September 2025</b></p>
   <div class="footer-social">
@@ -284,22 +299,29 @@
   </div>
 </footer>
 
-<!-- Accordion Script -->
+<!-- Scripts -->
 <script>
+  // Accordion
   document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".card");
-    
     cards.forEach(card => {
       card.addEventListener("click", () => {
-        // Close all other cards
-        cards.forEach(c => {
-          if (c !== card) c.classList.remove("active");
-        });
-        // Toggle clicked one
+        cards.forEach(c => { if (c !== card) c.classList.remove("active"); });
         card.classList.toggle("active");
       });
     });
   });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 </script>
 
 </body>
